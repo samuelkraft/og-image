@@ -43,7 +43,6 @@ function getCss(fontSize: string) {
         text-align: left;
         padding: 0 150px;
         padding-bottom: 200px;
-        width: 100%;
         display: flex;
         align-items: flex-end;
     }
@@ -79,7 +78,9 @@ function getCss(fontSize: string) {
         font-size: 0.5em;
         opacity: 0.8;
         font-weight: 500;
+        margin-top: 40px !important;
         margin-bottom:50px !important;
+        line-height: 1.5;
     }
 
     .website {
@@ -93,7 +94,7 @@ function getCss(fontSize: string) {
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
-        line-height: 1.8;
+        line-height: 1.3;
         font-weight: 900;
         font-size: 100px;
         margin: 0;

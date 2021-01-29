@@ -11,16 +11,10 @@ const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
 
-function getCss(theme: string, fontSize: string) {
-    let background = 'white';
-    let foreground = 'black';
-    let radial = 'lightgray';
+function getCss(fontSize: string) {
+    let background = '#161515';
+    let foreground = 'white';
 
-    if (theme === 'dark') {
-        background = 'black';
-        foreground = 'white';
-        radial = 'dimgray';
-    }
     return `
     @font-face {
         font-family: 'Inter';
@@ -45,13 +39,13 @@ function getCss(theme: string, fontSize: string) {
 
     body {
         background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
         height: 100vh;
+        text-align: left;
+        padding: 0 150px;
+        padding-bottom: 200px;
+        width: 100%;
         display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-end;
     }
 
     code {
@@ -65,26 +59,13 @@ function getCss(theme: string, fontSize: string) {
         content: '\`';
     }
 
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
-    }
 
     .logo {
-        margin: 0 75px;
-    }
-
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
+        margin-bottom: 75px;
     }
 
     .spacer {
-        margin: 150px;
+        margin-bottom: 150px;
     }
 
     .emoji {
@@ -93,25 +74,45 @@ function getCss(theme: string, fontSize: string) {
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
     }
-    
+
+    .desc {
+        font-size: 0.5em;
+        opacity: 0.8;
+        font-weight: 500;
+        margin-bottom:50px !important;
+    }
+
+    .website {
+        font-size: 0.5em;
+        opacity: 0.5;
+        font-weight: 400;
+    }
+
     .heading {
         font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
         line-height: 1.8;
+        font-weight: 900;
+        font-size: 100px;
+        margin: 0;
+    }
+
+    .heading * {
+        margin: 0;
     }`;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { text, desc, md, fontSize, images, widths, heights } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss(fontSize)}
     </style>
     <body>
         <div>
@@ -125,6 +126,9 @@ export function getHtml(parsedReq: ParsedRequest) {
             <div class="heading">${emojify(
                 md ? marked(text) : sanitizeHtml(text)
             )}
+            <p class="desc">${desc}</p>
+            <div class="spacer">
+            <p class="website">samuelkraft.com</p>
             </div>
         </div>
     </body>
